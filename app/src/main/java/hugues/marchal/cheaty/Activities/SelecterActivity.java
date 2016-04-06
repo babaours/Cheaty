@@ -1,4 +1,4 @@
-package hugues.marchal.cheaty;
+package hugues.marchal.cheaty.Activities;
 
 import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
@@ -11,13 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.OnClick;
+import hugues.marchal.cheaty.R;
 
 /**
  * This class will make the user choose a network to scan and start the relative activity, knowing that if Bluetooth feature is not supported by the phone,
  * the checkbox relative to Bluetooth will be set GONE and unclickable. The possible networks are (by order of appearance) : WiFi Networks, Bluetooth and
  * Mobile Networks. This activity is also the starter activity.
  */
-public class Selecter extends AppCompatActivity implements View.OnClickListener{
+public class SelecterActivity extends AppCompatActivity implements View.OnClickListener{
 
     //The Booleans to know if the checkbox is selected
     private Boolean allSelected;
@@ -78,7 +79,7 @@ public class Selecter extends AppCompatActivity implements View.OnClickListener{
         if (bluetoothAdapter==null){
             selectBluetoothRB.setVisibility(View.GONE);
             isBluetoothSupported = false;
-            Toast.makeText(Selecter.this, "Bluetooth feature is not supported by the phone", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelecterActivity.this, "Bluetooth feature is not supported by the phone", Toast.LENGTH_SHORT).show();
         }
     }
 
