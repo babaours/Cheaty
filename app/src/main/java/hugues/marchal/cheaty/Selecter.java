@@ -21,10 +21,10 @@ public class Selecter extends AppCompatActivity implements View.OnClickListener{
 
     //The Booleans to know if the checkbox is selected
     private Boolean allSelected;
-    private Boolean wifiChecked;
-    private Boolean bluetoothChecked;
-    private Boolean mobileChecked;
     private Boolean isBluetoothSupported = true;
+    private Boolean wifiRBSelected;
+    private Boolean mobileRBSelected;
+    private Boolean bluetoothRBSelected;
 
     //The explanatory text
     private final String explanationText = "Please select an option given below.\n \nThe 'WiFi Networks' options will allow you to discover" +
@@ -64,6 +64,7 @@ public class Selecter extends AppCompatActivity implements View.OnClickListener{
         explanationTextTV = (TextView)findViewById(R.id.explanationTextTV);
         selectBTN = (Button)findViewById(R.id.selectBTN);
         selectBTN.setOnClickListener(this);
+        selectBTN.setVisibility(View.GONE);
 
         /*
             Setting Explanation Text within the explanationTextTV
@@ -88,39 +89,90 @@ public class Selecter extends AppCompatActivity implements View.OnClickListener{
      */
     @Override
     public void onClick(View v) {
+        wifiRBSelected = selectWifiRB.isChecked();
+        mobileRBSelected = selectMobileRB.isChecked();
+        bluetoothRBSelected = selectBluetoothRB.isChecked();
+        allSelected = selectAll.isChecked();
 
+        if(allSelected){
+            //Start All Scan Activity
+        }
+        else{
+            if(wifiRBSelected){
+                //Start WiFi Scan Activity
+            }
+            if(mobileRBSelected){
+                //Start Mobile Scan Activity
+            }
+            if(bluetoothRBSelected){
+                //Start Bluetooth Scan Activity
+            }
+        }
     }
 
     /**
-     * This method will set all boxes checked if the selectAll CheckBox is not already selected. Otherwise, set all boxes unchecked.
+     * This method will set all boxes checked if the selectAll CheckBox is not already selected. In this case, the select button will be visible, Otherwise,
+     * set all boxes unchecked and set select button gone.
      */
     @OnClick(R.id.selectAllCB)
     public void selectAll(){
         if (!allSelected){
             selectAll.setChecked(true);
             allSelected = true;
-
             selectWifiRB.setChecked(true);
-            wifiChecked = true;
-
             selectBluetoothRB.setChecked(true);
-            bluetoothChecked = true;
-
             selectMobileRB.setChecked(true);
-            mobileChecked = true;
+            selectBTN.setVisibility(View.VISIBLE);
         }
         else{
             selectAll.setChecked(false);
             allSelected = false;
-
             selectWifiRB.setChecked(false);
-            wifiChecked = false;
-
             selectBluetoothRB.setChecked(false);
-            bluetoothChecked = false;
-
             selectMobileRB.setChecked(false);
-            mobileChecked = false;
+            selectBTN.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * This method will allow to change selectAll CB (the Select All CheckBox) if an option is clicked and set unselected.
+     * @precondition none
+     * @postcondition if the selectAll CB is checked, it will be set unchecked and select button visibility will pass to gone
+     */
+    protected void unSelectAllBox (){
+        if (selectAll.isChecked()) {
+            selectAll.setChecked(false);
+            selectBTN.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * This method will allow to change selectAll CB (the Select All CheckBox) if the 3 options are clicked and set
+     * selected without clicking (selecting) the "Select All" CheckBox
+     * @precondition none
+     * @postcondition selectAll CB is checked if every option is selected
+     */
+    protected void selectAllBox(){
+        if (selectBluetoothRB.isChecked() && selectMobileRB.isChecked() && selectWifiRB.isChecked()){
+            selectAll.setChecked(true);
+            selectBTN.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    protected void setSelectBTNGone(){
+        wifiRBSelected = selectWifiRB.isChecked();
+        mobileRBSelected = selectMobileRB.isChecked();
+        bluetoothRBSelected = selectBluetoothRB.isChecked();
+        allSelected = selectAll.isChecked();
+
+        if(!allSelected){
+            if(!wifiRBSelected && mobileRBSelected && bluetoothRBSelected)
+                selectAll.setVisibility(View.GONE);
+            if(wifiRBSelected && !mobileRBSelected && bluetoothRBSelected)
+                selectAll.setVisibility(View.GONE);
+            if(wifiRBSelected && mobileRBSelected && !bluetoothRBSelected)
+                selectAll.setVisibility(View.GONE);
         }
     }
 
@@ -129,5 +181,43 @@ public class Selecter extends AppCompatActivity implements View.OnClickListener{
      */
     @OnClick(R.id.selectWifiRB)
     public void selectWifi(){
+        if(selectWifiRB.isChecked()){
+            selectWifiRB.setChecked(false);
+        }
+        else{
+            selectWifiRB.setChecked(true);
+        }
+        unSelectAllBox();
+        selectAllBox();
+        setSelectBTNGone();
     }
+
+    /**
+     * This method will check or uncheck the bluetooth RB and modify the display of the buttons
+     */
+    @OnClick(R.id.selectBluetoothRB)
+    public void selectBluetooth(){
+        if(selectBluetoothRB.isChecked()){
+            selectBluetoothRB.setChecked(false);
+        }
+        else selectBluetoothRB.setChecked(true);
+        unSelectAllBox();
+        selectAllBox();
+        setSelectBTNGone();
+    }
+
+
+    /**
+     * This method will check or uncheck the mobile RB and modify the display of the buttons
+     */
+    @OnClick(R.id.selectMobileRB)
+    public void selectMobile(){
+        if(selectMobileRB.isChecked())
+            selectMobileRB.setChecked(false);
+        else selectMobileRB.setChecked(true);
+        unSelectAllBox();
+        selectAllBox();
+        setSelectBTNGone();
+    }
+
 }
