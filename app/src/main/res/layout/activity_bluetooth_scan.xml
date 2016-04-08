@@ -24,8 +24,9 @@
         android:text="Scan"
         android:id="@+id/btScanButton"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:layout_alignParentBottom="true" />
+        android:textSize="28sp"
+        android:layout_alignParentBottom="true"
+        android:textAlignment="center" />
 
     <Button
         android:layout_width="200dp"
@@ -34,5 +35,7 @@
         android:id="@+id/btSaveButton"
         android:layout_above="@+id/btScanButton"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp" />
+        android:textSize="18sp"
+        android:onClick="saveBluetoothDevice"
+        android:textAlignment="center" />
 </RelativeLayout>

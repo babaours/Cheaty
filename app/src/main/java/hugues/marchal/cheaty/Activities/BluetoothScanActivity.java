@@ -40,6 +40,8 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_scan);
+        setTitle("Bluetooth Scanner");
+
         listView = (ListView) findViewById(R.id.btListView);
         scanBtn = (Button) findViewById(R.id.btScanButton);
         scanBtn.setOnClickListener(this);
@@ -122,7 +124,7 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
     /**
      * This method will allow the user to save the new found devices into the phone's memory.
      * @param view the view that will trigger the method
-     * @see SaveItem#saveBluetoothDevice(ArrayList)
+     * @see SaveItem#saveBluetoothDevice(ArrayList, Context)
      * @precondition none
      * @postcondition childListSaved contains ONLY the data from the New Found devices list and this list (childListFound) is set empty. All content of childListFound is saved into the phone's memory.
      * if childListFound is empty, throws a Toast message and does nothing. Throws a message if everything went well.
@@ -133,7 +135,7 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
             Toast.makeText(this, "Nothing to save !", Toast.LENGTH_SHORT).show();
         else {
             try {
-                Boolean bool = SaveItem.saveBluetoothDevice(listDevices);
+                Boolean bool = SaveItem.saveBluetoothDevice(listDevices, this);
                 if (bool)
                     Toast.makeText(this,"Data has been saved",Toast.LENGTH_SHORT).show();
             } catch (IOException e) {

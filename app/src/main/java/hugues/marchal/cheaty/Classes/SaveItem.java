@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.os.Environment;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +14,7 @@ import java.util.Calendar;
  * Created by makarov on 08/04/16.
  */
 public class SaveItem {
+    private static final String path = "/sdcard/Cheaty2_Trace/";
     private static final String bluetoothFile = "BluetoothDevices.txt";
     private static final String wifiFile = "WiFiDevices.txt";
     private static final String mobileFile = "MobileDevices.txt";
@@ -39,6 +39,18 @@ public class SaveItem {
         return dateDir+timeDir;
     }
 
+    /* Checks if external storage is available for read and write
+    *  Method comes from android developer website
+    */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * This method will allow the user to save a Bluetooth device's characteristics (name and MAC) into a file, preceded by the complete time at which the device is saved.
      * @param listToSave the list containing all BluetoothDev objects to save
@@ -46,15 +58,11 @@ public class SaveItem {
      * @precondition bluetoothFile is not empty and contains the path to the file in which data is gonna be saved.
      * @postcondition the file contains at least all the data of listToSave.
      */
-    public static Boolean saveBluetoothDevice(ArrayList<String> listToSave) throws IOException {
+    public static Boolean saveBluetoothDevice(ArrayList<String> listToSave, Context context) throws IOException {
         assert !bluetoothFile.equals(null);
         assert !bluetoothFile.equals("");
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/Cheaty2_Trace");
-        myDir.mkdirs();
-        File file = new File (myDir, bluetoothFile);
         try {
-            FileOutputStream fos = new FileOutputStream(file);
+            FileOutputStream fos = context.openFileOutput(path+bluetoothFile, Context.MODE_APPEND);
             PrintWriter writer = new PrintWriter(fos);
             for (int i = 0; i<listToSave.size();i++){
                 writer.println();
