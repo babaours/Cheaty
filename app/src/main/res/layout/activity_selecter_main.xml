@@ -45,34 +45,8 @@
         android:layout_below="@+id/scrollView"
         android:layout_marginTop="10dp"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/selectBTN" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WiFi Networks"
-        android:id="@+id/selectWifiRB"
-        android:layout_below="@+id/selectAllCB"
-        android:layout_centerHorizontal="true"
-        android:clickable="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bluetooth Network"
-        android:id="@+id/selectBluetoothRB"
-        android:layout_below="@+id/selectWifiRB"
-        android:layout_alignStart="@+id/selectWifiRB"
-        android:clickable="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mobile Network"
-        android:id="@+id/selectMobileRB"
-        android:layout_below="@+id/selectBluetoothRB"
-        android:layout_alignStart="@+id/selectBluetoothRB"
-        android:clickable="true" />
+        android:layout_alignStart="@+id/selectBTN"
+        android:onClick="selectAllOptions"/>
 
     <Button
         android:layout_width="250dp"
@@ -82,6 +56,36 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:clickable="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mobile Networks"
+        android:id="@+id/selectMobileCB"
+        android:layout_below="@+id/selectAllCB"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:onClick="mobileCBCheck"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wifi Networks"
+        android:id="@+id/selectWifiCB"
+        android:layout_below="@+id/selectMobileCB"
+        android:layout_alignStart="@+id/selectMobileCB"
+        android:clickable="true"
+        android:onClick="wifiCBCheck"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth Network"
+        android:id="@+id/selectBluetoothCB"
+        android:layout_below="@+id/selectWifiCB"
+        android:layout_alignStart="@+id/selectWifiCB"
+        android:clickable="true"
+        android:onClick="bluetoothCBCheck" />
 
 
 </RelativeLayout>
