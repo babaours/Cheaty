@@ -234,7 +234,7 @@ public class SelecterActivity extends AppCompatActivity implements View.OnClickL
 
             }
             if (wifiCB.isChecked()){
-                //start WiFi scan activity
+                startActivity(new Intent(SelecterActivity.this, WifiScanActivity.class));
 
             }
         }
