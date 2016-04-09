@@ -1,7 +1,6 @@
 package hugues.marchal.cheaty.Classes;
 
 import android.content.Context;
-import android.net.wifi.ScanResult;
 import android.os.Environment;
 
 import java.io.FileOutputStream;
@@ -90,11 +89,10 @@ public class SaveItem {
      * @postcondition wifiFile contains at least the data from the current listToSave, this listToSave hasn't
      * been modified.
      */
-    public static Boolean saveWifiNetworks (ArrayList<ScanResult> listToSave, Context context){
+    public static Boolean saveWifiNetworks (ArrayList<String> listToSave, Context context){
         assert !wifiFile.equals(null);
         assert !wifiFile.equals("");
-
-        String time = getDateNTime();
+        
         FileOutputStream fos;
         try {
 
@@ -102,15 +100,7 @@ public class SaveItem {
             PrintWriter writer = new PrintWriter(fos);
             for (int i = 0; i< listToSave.size();i++){
                 writer.println();
-                writer.println(time);
-                if (listToSave.get(i).capabilities.contains("IBSS"))
-                    writer.println("(*) SSID : "+listToSave.get(i).SSID);
-                else
-                    writer.println("SSID : "+listToSave.get(i).SSID);
-                writer.println("BSSID : "+listToSave.get(i).BSSID);
-                writer.println("Frequency : "+listToSave.get(i).frequency);
-                writer.println("Level : "+listToSave.get(i).level);
-                writer.println("Capabilities : "+listToSave.get(i).capabilities);
+                writer.println(listToSave.get(i));
             }
             writer.close();
             fos.close();

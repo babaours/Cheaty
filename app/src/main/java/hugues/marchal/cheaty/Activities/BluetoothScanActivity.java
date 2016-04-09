@@ -18,12 +18,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.OnClick;
+import hugues.marchal.cheaty.Classes.BluetoothDev;
 import hugues.marchal.cheaty.Classes.SaveItem;
 import hugues.marchal.cheaty.R;
 
 public class BluetoothScanActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static int REQUEST_CODE_ENABLE_BLUETOOTH = 0;
+    private boolean wasBluetoothEnabled = true;
     private ListView listView;
     private Button scanBtn;
     private Button saveBtn;
@@ -77,6 +79,7 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
             Toast.makeText(BluetoothScanActivity.this, "Choose Activate to run the scan", Toast.LENGTH_LONG).show();
             this.finish();
         }
+        wasBluetoothEnabled = false;
     }
 
     /**
@@ -104,16 +107,17 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice btDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                BluetoothDev device = new BluetoothDev(btDevice);
                 boolean add = true;
                 for (int i = 0;i<listDevices.size(); i++){
                     if(listDevices.get(i).contains(btDevice.getAddress()))
                             add = false;
                 }
                 if(add){
-                    String device = "Name : "+btDevice.getName()+" \n" +
-                                    "MAC : "+btDevice.getAddress()+"\n" +
-                                    "Discovery Time : "+SaveItem.getDateNTime();
-                    listDevices.add(device);
+                    String dev = "Name : "+device.getDeviceName()+" \n" +
+                                    "MAC : "+device.getDeviceAddress()+"\n" +
+                                    "Discovery Time : "+device.getDiscoveryTime();
+                    listDevices.add(dev);
                     listAdapter.notifyDataSetChanged();
                     Toast.makeText(BluetoothScanActivity.this, "Loading devices, please wait", Toast.LENGTH_LONG).show();
                 }
@@ -154,6 +158,10 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
+        if(!wasBluetoothEnabled){
+            bluetoothAdapter.disable();
+            Toast.makeText(this, "Bluetooth has been disabled", Toast.LENGTH_SHORT).show();
+        }
         unregisterReceiver(bluetoothReceiver);
     }
 }

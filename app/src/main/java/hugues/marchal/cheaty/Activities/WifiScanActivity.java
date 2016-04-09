@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hugues.marchal.cheaty.Adapters.WifiExpandableListViewAdapter;
+import hugues.marchal.cheaty.Classes.WifiNetwork;
 import hugues.marchal.cheaty.R;
 
 public class WifiScanActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,10 +29,9 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
     private ArrayList<String> group = new ArrayList<>();
     private ArrayList<String> child = new ArrayList<>();
     private WifiExpandableListViewAdapter adapter;
-    private List<ScanResult> results;
     private Boolean wasWifiEnabled = true;
-
     private WifiManager wifiManager;
+    private ArrayList<String> completeList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,34 +80,33 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
             String action = intent.getAction();
             if(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
                 //WifiManager receiveWifiManager = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-                results = wifiManager.getScanResults();
+                List<ScanResult> results = wifiManager.getScanResults();
                 boolean add = true;
                 try
                 {
                     for(int i = 0; i<results.size(); i++){
+                        WifiNetwork network = new WifiNetwork(results.get(i));
                         for(int j = 0; j<group.size();j++){
-                            if(group.get(j).contains(results.get(i).BSSID)){
+                            if(group.get(j).contains(network.getBssid())){
                                 add = false;
                             }
                         }
                         if(add) {
-                            if (results.get(i).capabilities.contains("IBSS")) {
-                                String tempGroup = "(*) SSID : " + results.get(i).SSID + "\n" +
-                                        "BSSID : " + results.get(i).BSSID;
+                            String tempGroup, tempChild;
+                            if (network.getCapabilities().contains("IBSS")) {
+                                tempGroup = "(*) SSID : " + network.getSsid() + "\n" +
+                                        "BSSID : " + network.getBssid();
                                 group.add(tempGroup);
-                                String tempChild = "Capabilities : " + results.get(i).capabilities + "\n" +
-                                        "Level : " + results.get(i).level + "\n" +
-                                        "Frequency : " + results.get(i).frequency;
-                                child.add(tempChild);
                             } else {
-                                String tempGroup = "SSID : " + results.get(i).SSID + "\n" +
-                                        "BSSID : " + results.get(i).BSSID;
+                                tempGroup = "SSID : " + network.getSsid() + "\n" +
+                                        "BSSID : " + network.getBssid();
                                 group.add(tempGroup);
-                                String tempChild = "Capabilities : " + results.get(i).capabilities + "\n" +
-                                        "Level : " + results.get(i).level + "\n" +
-                                        "Frequency : " + results.get(i).frequency;
-                                child.add(tempChild);
                             }
+                            tempChild = "Capabilities : " + network.getCapabilities() + "\n" +
+                                    "Level : " + network.getLevel() + "\n" +
+                                    "Frequency : " + network.getFrequency();
+                            child.add(tempChild);
+                            completeList.add(tempGroup+"\n"+tempChild);
                             adapter.notifyDataSetChanged();
                         }
                     }
