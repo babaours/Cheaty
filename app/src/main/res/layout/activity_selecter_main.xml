@@ -9,23 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hugues.marchal.cheaty.selecter_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose a scanning option"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textIsSelectable="false"
-        android:textSize="30sp" />
-
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="90dp"
+        android:layout_height="200dp"
         android:id="@+id/scrollView"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignEnd="@+id/textView">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +31,7 @@
         android:layout_marginStart="27dp"
         android:clickable="true"
         android:layout_below="@+id/scrollView"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/selectBTN"
         android:onClick="selectAllOptions"/>

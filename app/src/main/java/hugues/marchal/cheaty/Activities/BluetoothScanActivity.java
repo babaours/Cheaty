@@ -162,6 +162,5 @@ public class BluetoothScanActivity extends AppCompatActivity implements View.OnC
             bluetoothAdapter.disable();
             Toast.makeText(this, "Bluetooth has been disabled", Toast.LENGTH_SHORT).show();
         }
-        unregisterReceiver(bluetoothReceiver);
     }
 }

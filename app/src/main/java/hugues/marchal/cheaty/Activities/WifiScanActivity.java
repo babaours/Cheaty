@@ -37,6 +37,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_scan);
+        setTitle("Wifi Network Scanner");
         expandableListView = (ExpandableListView)findViewById(R.id.wifiExpListView);
         scanBTN = (Button)findViewById(R.id.wifiScanBTN);
         scanBTN.setOnClickListener(this);
@@ -127,6 +128,5 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
         if(!wasWifiEnabled)
             wifiManager.setWifiEnabled(false);
         Toast.makeText(this, "Wifi has been disabled", Toast.LENGTH_SHORT).show();
-        unregisterReceiver(wiFiReceiver);
     }
 }

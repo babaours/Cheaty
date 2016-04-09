@@ -51,7 +51,7 @@ public class SelecterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selecter_main);
-
+        setTitle("Select An Option");
         /*
             Linking Layout (activity_selecter_main) variables to activity variables and setting onClickListener for "Select" Button
          */

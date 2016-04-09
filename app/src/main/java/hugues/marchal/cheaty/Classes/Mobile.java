@@ -7,7 +7,7 @@ import android.telephony.TelephonyManager;
  */
 public class Mobile extends Item{
     private static int networkType;
-    private static double version = 2;
+    private static String version = "2";
     private static String netwkType;
 
     private static void findNetworkDetails(TelephonyManager telephonyManager){
@@ -16,7 +16,7 @@ public class Mobile extends Item{
             case TelephonyManager.NETWORK_TYPE_EDGE:
             {
                 netwkType = "EDGE ";
-                version = 2.5;
+                version = "2.5";
                 break;}
             case TelephonyManager.NETWORK_TYPE_GPRS:
             {
@@ -25,32 +25,32 @@ public class Mobile extends Item{
             case TelephonyManager.NETWORK_TYPE_HSDPA:
             {
                 netwkType = "HSDPA ";
-                version = 3;
+                version = "3";
                 break;}
             case TelephonyManager.NETWORK_TYPE_HSPA:
             {
                 netwkType = "HSPA ";
-                version = 3;
+                version = "3";
                 break;}
             case TelephonyManager.NETWORK_TYPE_HSPAP:
             {
                 netwkType = "HSPAP ";
-                version =3;
+                version ="3";
                 break;}
             case TelephonyManager.NETWORK_TYPE_UMTS:
             {
                 netwkType = "UMTS ";
-                version = 3;
+                version = "3";
                 break;}
             case TelephonyManager.NETWORK_TYPE_LTE:
             {
                 netwkType = "LTE ";
-                version = 4;
+                version = "4";
                 break;}
             case TelephonyManager.NETWORK_TYPE_UNKNOWN:
             {
                 netwkType = "UNKNOWN ";
-                version = 0;
+                version = "0";
                 break;}
         }
     }

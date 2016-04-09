@@ -29,6 +29,7 @@ public class MobileScanActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_scan);
+        setTitle("Mobile Network Scanner");
         scanButton = (Button)findViewById(R.id.mobileScanBtn);
         scanButton.setOnClickListener(this);
         typeTV = (TextView)findViewById(R.id.mobileTypeTV);
