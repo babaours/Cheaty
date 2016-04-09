@@ -92,7 +92,7 @@ public class SaveItem {
     public static Boolean saveWifiNetworks (ArrayList<String> listToSave, Context context){
         assert !wifiFile.equals(null);
         assert !wifiFile.equals("");
-        
+
         FileOutputStream fos;
         try {
 

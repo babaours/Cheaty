@@ -230,7 +230,7 @@ public class SelecterActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(SelecterActivity.this, BluetoothScanActivity.class));
             }
             if (mobileCB.isChecked()){
-                //start mobile scan activity
+                startActivity(new Intent(SelecterActivity.this, MobileScanActivity.class));
 
             }
             if (wifiCB.isChecked()){
