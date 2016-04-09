@@ -6,11 +6,11 @@ import android.telephony.TelephonyManager;
  * Created by makarov on 09/04/16.
  */
 public class Mobile extends Item{
-    private int networkType;
-    private double version = 2;
-    private String netwkType;
+    private static int networkType;
+    private static double version = 2;
+    private static String netwkType;
 
-    private void findNetworkDetails(TelephonyManager telephonyManager){
+    private static void findNetworkDetails(TelephonyManager telephonyManager){
         networkType = telephonyManager.getNetworkType();
         switch (networkType){
             case TelephonyManager.NETWORK_TYPE_EDGE:
@@ -55,7 +55,7 @@ public class Mobile extends Item{
         }
     }
 
-    public String getNetworkType(TelephonyManager telephonyManager){
+    public static String getNetworkType(TelephonyManager telephonyManager){
         findNetworkDetails(telephonyManager);
         String str = netwkType+"("+version+"G)";
         return str;

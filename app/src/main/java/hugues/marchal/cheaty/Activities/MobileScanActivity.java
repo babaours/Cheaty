@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import hugues.marchal.cheaty.Classes.Mobile;
 import hugues.marchal.cheaty.R;
 
 public class MobileScanActivity extends AppCompatActivity implements View.OnClickListener{
@@ -34,9 +35,8 @@ public class MobileScanActivity extends AppCompatActivity implements View.OnClic
         listView = (ListView)findViewById(R.id.mobileListView);
         adapter = new ArrayAdapter<>(this, R.layout.mobile_list_item, R.id.mobileListTV, netDetails);
         listView.setAdapter(adapter);
-
-
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        typeTV.setText(Mobile.getNetworkType(telephonyManager));
     }
 
     @Override
