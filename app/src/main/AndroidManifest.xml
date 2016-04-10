@@ -32,7 +32,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Activities.WifiScanActivity" />
-        <activity android:name=".Activities.MobileScanActivity"></activity>
+        <activity android:name=".Activities.MobileScanActivity" />
+        <activity android:name=".Activities.AllScanActivity"></activity>
     </application>
 
 </manifest>
