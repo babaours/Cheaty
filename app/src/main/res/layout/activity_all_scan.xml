@@ -9,14 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hugues.marchal.cheaty.Activities.AllScanActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/allScanMobType"
-        android:textSize="18sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
     <Button
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -33,13 +25,14 @@
         android:id="@+id/allScanSaveBTN"
         android:layout_above="@+id/allScanScanBTN"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp" />
+        android:textSize="18sp"
+        android:onClick="saveAllItems"/>
 
     <ExpandableListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/allScanExpandableListView"
-        android:layout_below="@+id/allScanMobType"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_above="@+id/allScanSaveBTN" />
 </RelativeLayout>

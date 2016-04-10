@@ -109,7 +109,8 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
                             }
                             tempChild = "Capabilities : " + network.getCapabilities() + "\n" +
                                     "Level : " + network.getLevel() + "\n" +
-                                    "Frequency : " + network.getFrequency();
+                                    "Frequency : " + network.getFrequency() +"\n" +
+                                    "Discovery Time : "+ network.getDiscoveryTime();
                             child.add(tempChild);
                             allItems.put(tempGroup, tempChild);
                             completeList.add(tempGroup+"\n"+tempChild);

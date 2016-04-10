@@ -15,17 +15,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.OnClick;
 import hugues.marchal.cheaty.Adapters.AllScanExpandableListViewAdapter;
 import hugues.marchal.cheaty.Classes.BluetoothDev;
 import hugues.marchal.cheaty.Classes.Mobile;
+import hugues.marchal.cheaty.Classes.SaveItem;
 import hugues.marchal.cheaty.Classes.WifiNetwork;
 import hugues.marchal.cheaty.R;
 
@@ -44,7 +46,6 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
     private Button saveButton;
     private Button scanButton;
     private ExpandableListView expandableListView;
-    private TextView networkTypeTV;
     private AllScanExpandableListViewAdapter adapter;
 
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -61,12 +62,9 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
         setTitle("All Networks Scanner");
 
         saveButton = (Button)findViewById(R.id.allScanSaveBTN);
-        networkTypeTV = (TextView)findViewById(R.id.allScanMobType);
         expandableListView = (ExpandableListView)findViewById(R.id.allScanExpandableListView);
         scanButton = (Button)findViewById(R.id.allScanScanBTN);
         scanButton.setOnClickListener(this);
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        networkTypeTV.setText(Mobile.getNetworkType(telephonyManager));
         setGroup();
         adapter = new AllScanExpandableListViewAdapter(this, (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), allElements, group);
         expandableListView.setGroupIndicator(null);
@@ -141,6 +139,7 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
         wifiManager.startScan();
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
         bluetoothAdapter.startDiscovery();
+        mobileInformation();
         Toast.makeText(AllScanActivity.this, "Scanning...." , Toast.LENGTH_LONG).show();
     }
 
@@ -234,7 +233,8 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
                             }
                             tempChild = "Capabilities : " + network.getCapabilities() + "\n" +
                                     "Level : " + network.getLevel() + "\n" +
-                                    "Frequency : " + network.getFrequency();
+                                    "Frequency : " + network.getFrequency() + "\n" +
+                                    "Discovery Time : " + network.getDiscoveryTime();
                             wifiSaveList.add(tempGroup + "\n" + tempChild);
                             //allElements.get(group.get(index)).clear();
                             allElements.put(group.get(index), wifiSaveList);
@@ -249,6 +249,25 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
             }
         }};
 
+    /*
+        ============================================================================================
+                                            Mobile Data Setter
+     */
+    private void mobileInformation(){
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        String str = "Network Type : "+Mobile.getNetworkType(telephonyManager);
+        mobileSaveList.add(str);
+        boolean found = false;
+        int index = 0;
+        while(!found && index<group.size()){
+            if (!group.get(index).equals(wifiTitle))
+                index++;
+            else found =true;
+        }
+        allElements.put(group.get(index),mobileSaveList);
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onDestroy(){
@@ -262,11 +281,69 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
                 wifiManager.setWifiEnabled(false);
                 Toast.makeText(AllScanActivity.this,"Wifi has been disabled", Toast.LENGTH_SHORT).show();
             }else{
-                bluetoothAdapter.disable();
-                Toast.makeText(AllScanActivity.this,"Bluetooth has been disabled", Toast.LENGTH_SHORT).show();
+                if(!wasBluetoothEnabled){
+                    bluetoothAdapter.disable();
+                    Toast.makeText(AllScanActivity.this,"Bluetooth has been disabled", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
 
-    
+    @OnClick(R.id.allScanSaveBTN)
+    public void saveAllItems(View view){
+        if(wifiSaveList.isEmpty() && bluetoothSaveList.isEmpty() && mobileSaveList.isEmpty())
+            Toast.makeText(AllScanActivity.this,"Nothing to save !", Toast.LENGTH_SHORT).show();
+        else{
+            boolean done = false;
+            boolean done2 = false;
+            boolean done3 = false;
+            if(!wifiSaveList.isEmpty()){
+                done = SaveItem.saveWifiNetworks(wifiSaveList,this);
+                wifiSaveList.clear();
+                boolean found = false;
+                int index = 0;
+                while(!found && index<group.size()){
+                    if (!group.get(index).equals(wifiTitle))
+                        index++;
+                    else found =true;
+                }
+                allElements.put(group.get(index), wifiSaveList);
+                adapter.notifyDataSetChanged();
+            }
+            if(!bluetoothSaveList.isEmpty()){
+                try {
+                    done2 = SaveItem.saveBluetoothDevice(bluetoothSaveList, this);
+                    boolean found = false;
+                    int index = 0;
+                    while(!found && index<group.size()){
+                        if (!group.get(index).equals(bluetoothTitle))
+                            index++;
+                        else found =true;
+                    }
+                    bluetoothSaveList.clear();
+                    allElements.put(group.get(index), bluetoothSaveList);
+                    adapter.notifyDataSetChanged();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(!mobileSaveList.isEmpty()){
+                done3 = SaveItem.saveMobileNetworks(mobileSaveList, this);
+                boolean found = false;
+                int index = 0;
+                while(!found && index<group.size()){
+                    if (!group.get(index).equals(mobileTitle))
+                        index++;
+                    else found =true;
+                }
+                mobileSaveList.clear();
+                allElements.put(group.get(index),mobileSaveList);
+                adapter.notifyDataSetChanged();
+            }
+            if(done || done2 || done3){
+                Toast.makeText(AllScanActivity.this,"Data Saved", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 }

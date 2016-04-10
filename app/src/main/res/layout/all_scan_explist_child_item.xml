@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/allScanChildTV"
         android:textSize="16sp"
-        android:paddingLeft="30dp" />
+        android:paddingLeft="20dp" />
 </LinearLayout>

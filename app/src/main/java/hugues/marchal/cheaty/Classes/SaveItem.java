@@ -57,11 +57,11 @@ public class SaveItem {
      * @precondition bluetoothFile is not empty and contains the path to the file in which data is gonna be saved.
      * @postcondition the file contains at least all the data of listToSave.
      */
-    public static Boolean saveBluetoothDevice(ArrayList<String> listToSave, Context context) throws IOException {
+    public static boolean saveBluetoothDevice(ArrayList<String> listToSave, Context context) throws IOException {
         assert !bluetoothFile.equals(null);
         assert !bluetoothFile.equals("");
         try {
-            FileOutputStream fos = context.openFileOutput(path+bluetoothFile, Context.MODE_APPEND);
+            FileOutputStream fos = context.openFileOutput(bluetoothFile, Context.MODE_APPEND);
             PrintWriter writer = new PrintWriter(fos);
             for (int i = 0; i<listToSave.size();i++){
                 writer.println();
@@ -89,7 +89,7 @@ public class SaveItem {
      * @postcondition wifiFile contains at least the data from the current listToSave, this listToSave hasn't
      * been modified.
      */
-    public static Boolean saveWifiNetworks (ArrayList<String> listToSave, Context context){
+    public static boolean saveWifiNetworks (ArrayList<String> listToSave, Context context){
         assert !wifiFile.equals(null);
         assert !wifiFile.equals("");
 
@@ -102,12 +102,36 @@ public class SaveItem {
                 writer.println();
                 writer.println(listToSave.get(i));
             }
+            fos.flush();
             writer.close();
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return true;
+    }
+
+
+    public static boolean saveMobileNetworks(ArrayList<String> listToSave, Context context){
+        assert !mobileFile.equals(null);
+        assert !mobileFile.equals("");
+        FileOutputStream fos;
+        try {
+
+            fos = context.openFileOutput(mobileFile, Context.MODE_APPEND);
+            PrintWriter writer = new PrintWriter(fos);
+            for (int i = 0; i< listToSave.size();i++){
+                writer.println();
+                writer.println(listToSave.get(i));
+            }
+            fos.flush();
+            writer.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+
     }
 
 }
