@@ -260,7 +260,7 @@ public class AllScanActivity extends AppCompatActivity implements View.OnClickLi
         boolean found = false;
         int index = 0;
         while(!found && index<group.size()){
-            if (!group.get(index).equals(wifiTitle))
+            if (!group.get(index).equals(mobileTitle))
                 index++;
             else found =true;
         }
