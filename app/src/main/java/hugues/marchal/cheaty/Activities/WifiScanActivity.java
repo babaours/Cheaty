@@ -15,7 +15,9 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import hugues.marchal.cheaty.Adapters.WifiExpandableListViewAdapter;
 import hugues.marchal.cheaty.Classes.WifiNetwork;
@@ -28,10 +30,11 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
     private ExpandableListView expandableListView;
     private ArrayList<String> group = new ArrayList<>();
     private ArrayList<String> child = new ArrayList<>();
+    private ArrayList<String> completeList = new ArrayList<>();
+    private Map<String, String> allItems = new LinkedHashMap<String,String>();
     private WifiExpandableListViewAdapter adapter;
     private Boolean wasWifiEnabled = true;
     private WifiManager wifiManager;
-    private ArrayList<String> completeList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Enabling WiFi...", Toast.LENGTH_SHORT).show();
         }
 
-        adapter = new WifiExpandableListViewAdapter(this, (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), group, child);
+        adapter = new WifiExpandableListViewAdapter(this, (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), allItems, group);
         //ExpendableListView Settings
         expandableListView.setDividerHeight(2);
         expandableListView.setGroupIndicator(null);
@@ -93,6 +96,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }
                         if(add) {
+                            //child.clear();
                             String tempGroup, tempChild;
                             if (network.getCapabilities().contains("IBSS")) {
                                 tempGroup = "(*) SSID : " + network.getSsid() + "\n" +
@@ -107,6 +111,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
                                     "Level : " + network.getLevel() + "\n" +
                                     "Frequency : " + network.getFrequency();
                             child.add(tempChild);
+                            allItems.put(tempGroup, tempChild);
                             completeList.add(tempGroup+"\n"+tempChild);
                             adapter.notifyDataSetChanged();
                         }

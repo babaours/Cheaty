@@ -8,6 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import hugues.marchal.cheaty.R;
 
@@ -16,15 +17,17 @@ import hugues.marchal.cheaty.R;
  */
 public class WifiExpandableListViewAdapter extends BaseExpandableListAdapter{
 
+    private Map<String,String> allItems;
     private ArrayList<String> childItems;
     private ArrayList<String> groupItems;
     private Context context;
     private LayoutInflater inflater;
 
 
-    public WifiExpandableListViewAdapter(Context ctx, LayoutInflater layoutInflater, ArrayList<String> group, ArrayList<String> child){
+    public WifiExpandableListViewAdapter(Context ctx, LayoutInflater layoutInflater, Map<String, String> completeMap,ArrayList<String> group){
+        this.allItems=completeMap;
         this.groupItems=group;
-        this.childItems=child;
+        //this.childItems=child;
         this.context=ctx;
         this.inflater=layoutInflater;
     }
@@ -36,7 +39,7 @@ public class WifiExpandableListViewAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.childItems.size();
+        return 1;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class WifiExpandableListViewAdapter extends BaseExpandableListAdapter{
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return null;
+        return this.allItems.get(groupItems.get(groupPosition));
     }
 
     @Override
@@ -76,11 +79,12 @@ public class WifiExpandableListViewAdapter extends BaseExpandableListAdapter{
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        String child = (String) getChild(groupPosition, childPosition);
         if(convertView==null){
             convertView = inflater.inflate(R.layout.wifi_explist_child_item, null);
         }
         TextView textView = (TextView)convertView.findViewById(R.id.wifiChildTV);
-        textView.setText(childItems.get(childPosition));
+        textView.setText(child);
         return convertView;
     }
 
