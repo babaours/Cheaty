@@ -145,8 +145,10 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        if(!wasWifiEnabled)
+        if(!wasWifiEnabled) {
             wifiManager.setWifiEnabled(false);
-        Toast.makeText(this, "Wifi has been disabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Wifi has been disabled", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
