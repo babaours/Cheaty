@@ -223,7 +223,7 @@ public class SelecterActivity extends AppCompatActivity implements View.OnClickL
             Verifies if an option (of the 3) at least has been checked and launches the activity according to it
          */
         if (selectAll.isChecked()&& (bluetoothCB.getVisibility() != View.GONE)) {
-            //all scan
+            startActivity(new Intent(SelecterActivity.this, AllScanActivity.class));
         }
         else {
             if (bluetoothCB.isChecked()){

@@ -54,7 +54,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
             wasWifiEnabled = false;
-            Toast.makeText(this, "Enabling WiFi...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WifiScanActivity.this, "Enabling WiFi...", Toast.LENGTH_SHORT).show();
         }
 
         adapter = new WifiExpandableListViewAdapter(this, (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), allItems, group);
@@ -69,7 +69,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         //Setting the receiver
         registerReceiver(wiFiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        Toast.makeText(this, "Scanning...." , Toast.LENGTH_LONG).show();
+        Toast.makeText(WifiScanActivity.this, "Scanning...." , Toast.LENGTH_LONG).show();
         wifiManager.startScan();
     }
 
@@ -127,11 +127,11 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
     @OnClick(R.id.wifiSaveBTN)
     public void saveWifiNetwork(View view){
         if(completeList.isEmpty()){
-            Toast.makeText(this,"Nothing to save !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WifiScanActivity.this,"Nothing to save !", Toast.LENGTH_SHORT).show();
         }else{
             Boolean bool = SaveItem.saveWifiNetworks(completeList,this);
             if (bool)
-                Toast.makeText(this,"Data has been saved",Toast.LENGTH_SHORT).show();
+                Toast.makeText(WifiScanActivity.this,"Data has been saved",Toast.LENGTH_SHORT).show();
             completeList.clear();
             allItems.clear();
             adapter.notifyDataSetChanged();
@@ -147,7 +147,7 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
         super.onDestroy();
         if(!wasWifiEnabled) {
             wifiManager.setWifiEnabled(false);
-            Toast.makeText(this, "Wifi has been disabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WifiScanActivity.this, "Wifi has been disabled", Toast.LENGTH_SHORT).show();
         }
 
     }
