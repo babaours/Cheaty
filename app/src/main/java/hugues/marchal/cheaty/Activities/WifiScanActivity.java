@@ -19,7 +19,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.OnClick;
 import hugues.marchal.cheaty.Adapters.WifiExpandableListViewAdapter;
+import hugues.marchal.cheaty.Classes.SaveItem;
 import hugues.marchal.cheaty.Classes.WifiNetwork;
 import hugues.marchal.cheaty.R;
 
@@ -83,7 +85,6 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
             // TODO Auto-generated method stub
             String action = intent.getAction();
             if(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
-                //WifiManager receiveWifiManager = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                 List<ScanResult> results = wifiManager.getScanResults();
                 boolean add = true;
                 try
@@ -96,7 +97,6 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }
                         if(add) {
-                            //child.clear();
                             String tempGroup, tempChild;
                             if (network.getCapabilities().contains("IBSS")) {
                                 tempGroup = "(*) SSID : " + network.getSsid() + "\n" +
@@ -123,8 +123,23 @@ public class WifiScanActivity extends AppCompatActivity implements View.OnClickL
             }
         }};
 
+
+    @OnClick(R.id.wifiSaveBTN)
+    public void saveWifiNetwork(View view){
+        if(completeList.isEmpty()){
+            Toast.makeText(this,"Nothing to save !", Toast.LENGTH_SHORT).show();
+        }else{
+            Boolean bool = SaveItem.saveWifiNetworks(completeList,this);
+            if (bool)
+                Toast.makeText(this,"Data has been saved",Toast.LENGTH_SHORT).show();
+            completeList.clear();
+            allItems.clear();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     /**
-     * This method will unregister the custom Broadcast Receiver when the activity is killed.
+     * This method will disable Wifi at the end of the activity if it was disabled before starting the activity
      */
     @Override
     protected void onDestroy() {

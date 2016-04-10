@@ -25,7 +25,8 @@
         android:id="@+id/wifiSaveBTN"
         android:layout_above="@+id/wifiScanBTN"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:onClick="saveWifiNetwork"/>
 
     <ExpandableListView
         android:layout_width="fill_parent"
